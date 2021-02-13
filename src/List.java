@@ -1,4 +1,5 @@
 import Exceptions.EmptyListException;
+import Exceptions.InvalidIndexException;
 import Exceptions.ValueNotFoundException;
 
 public class List<T> {
@@ -36,19 +37,23 @@ public class List<T> {
         size++;
     }
 
-    public void addMiddle(T data, int index) {
-        Node<T> temp = head;
-        Node<T> node = new Node<>(data);
-        if (index == 0) {
-            addFirst(data);
-            return;
+    public void addMiddle(T data, int index) throws InvalidIndexException {
+        if (index < 0 || index > size - 1) {
+            throw new InvalidIndexException("Invalid index");
+        } else {
+            Node<T> temp = head;
+            Node<T> node = new Node<>(data);
+            if (index == 0) {
+                addFirst(data);
+                return;
+            }
+            for (int i = 0; i < index - 1; i++) {
+                temp = temp.next;
+            }
+            node.next = temp.next;
+            temp.next = node;
+            size++;
         }
-        for (int i = 0; i < index - 1; i++) {
-            temp = temp.next;
-        }
-        node.next = temp.next;
-        temp.next = node;
-        size++;
     }
 
     public void removeFirst() throws EmptyListException {
@@ -78,20 +83,24 @@ public class List<T> {
         }
     }
 
-    public void removeMiddle(int index) throws EmptyListException {
-        if (head == null) {
-            throw new EmptyListException("Empty list!");
+    public void removeMiddle(int index) throws EmptyListException, InvalidIndexException {
+        if (index < 0 || index > size - 1) {
+            throw new InvalidIndexException("Invalid index");
         } else {
-            if (index == 0) {
-                removeFirst();
-                return;
+            if (head == null) {
+                throw new EmptyListException("Empty list!");
+            } else {
+                if (index == 0) {
+                    removeFirst();
+                    return;
+                }
+                Node<T> temp = head;
+                for (int i = 0; i < index - 1; i++) {
+                    temp = temp.next;
+                }
+                temp.next = temp.next.next;
+                size--;
             }
-            Node<T> temp = head;
-            for (int i = 0; i < index - 1; i++) {
-                temp = temp.next;
-            }
-            temp.next = temp.next.next;
-            size--;
         }
     }
 
@@ -118,14 +127,18 @@ public class List<T> {
         }
     }
 
-    public void replaceMiddle(T data, int index) {
-        Node<T> temp = head;
-        Node<T> node = new Node<>(data);
-        for (int i = 0; i < index - 1; i++) {
-            temp = temp.next;
+    public void replaceMiddle(T data, int index) throws InvalidIndexException {
+        if (index < 0 || index > size - 1) {
+            throw new InvalidIndexException("Invalid index");
+        } else {
+            Node<T> temp = head;
+            Node<T> node = new Node<>(data);
+            for (int i = 0; i < index - 1; i++) {
+                temp = temp.next;
+            }
+            node.next = temp.next.next;
+            temp.next = node;
         }
-        node.next = temp.next.next;
-        temp.next = node;
     }
 
     public int getIndexByValue(T data) throws EmptyListException, ValueNotFoundException {

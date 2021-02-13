@@ -1,4 +1,5 @@
 import Exceptions.EmptyListException;
+import Exceptions.InvalidIndexException;
 import Exceptions.ValueNotFoundException;
 
 public class Main {
@@ -8,11 +9,11 @@ public class Main {
             methodsTest();
             System.out.println();
             timeTests();
-        } catch (EmptyListException | ValueNotFoundException ex) {
+        } catch (EmptyListException | ValueNotFoundException | InvalidIndexException ex) {
             System.out.println(ex.getMessage());
         }
     }
-    public static void methodsTest() throws EmptyListException, ValueNotFoundException{
+    public static void methodsTest() throws EmptyListException, ValueNotFoundException, InvalidIndexException {
         List<String> list0 = new List<>();
         System.out.println("----------Methods tests----------");
         System.out.print("Adding 2 and 1 to the beginning of list:  ");
@@ -51,7 +52,7 @@ public class Main {
         list0.removeLast();
         list0.printList();
     }
-    public static void timeTests() throws EmptyListException, ValueNotFoundException {
+    public static void timeTests() throws EmptyListException, ValueNotFoundException, InvalidIndexException {
         List<String> list1 = new List<>();
         System.out.println("----------Time tests----------");
         long start = System.nanoTime();
