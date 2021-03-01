@@ -38,7 +38,7 @@ public class List<T> {
     }
 
     public void addMiddle(T data, int index) throws InvalidIndexException {
-        if (index < 0 || index > size - 1) {
+        if (index < 0 || index > size) {
             throw new InvalidIndexException("Invalid index");
         } else {
             Node<T> temp = head;
